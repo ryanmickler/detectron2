@@ -1,0 +1,39 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.117.1/containers/docker-in-docker
+{
+	"name": "detectron2",
+	"dockerFile": "Dockerfile",
+	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind", 
+				"source=/home/alerteadmin/research/data,target=/data,type=bind,consistency=cached"],
+	"workspaceMount" : "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+	"workspaceFolder" : "/workspace",
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-azuretools.vscode-docker", "ms-python.python"
+	],
+
+	"containerEnv": { "DISPLAY" : "${localEnv:DISPLAY}" },
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	"runArgs": [  "--shm-size=8gb", "--gpus=all"],
+
+	// Uncomment the next two lines to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "overrideCommand": false,
+	// "remoteUser": "vscode"
+}
+
+
+//"source=/tmp/.X11-unix,target=/tmp/.X11-unix", 
+//"source=/home/alerteadmin/research/data,target=/data", 
+//"source=$HOME/.torch/fvcore_cache,target=/tmp",

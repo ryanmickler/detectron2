@@ -64,6 +64,10 @@ class VideoVisualizer:
             output (VisImage): image object with visualizations.
         """
         frame_visualizer = Visualizer(frame, self.metadata)
+
+        # MOONLITE: zero out frame
+        frame_visualizer.output.img = np.zeros(frame_visualizer.output.img.shape)
+
         num_instances = len(predictions)
         if num_instances == 0:
             return frame_visualizer.output
@@ -97,6 +101,29 @@ class VideoVisualizer:
             alpha = 0.3
         else:
             alpha = 0.5
+
+        # only keep instance if
+        class_names = self.metadata.get("thing_classes", None)
+        # get indices of all 
+        focused_class = "person"
+        num_class_instances = [ i for i in range(num_instances) if (class_names[classes[i]] == focused_class) ]
+
+        # strip instances down to only instances of our focused class
+        boxes = [ boxes[i] for i in num_class_instances ]
+        masks = [ masks[i] for i in num_class_instances ]
+        labels = [ "" for i in num_class_instances ]
+        keypoints = [ keypoints[i] for i in num_class_instances ]
+        colors = [ (scores[i],scores[i],scores[i]) for i in num_class_instances ]
+
+        #for i in range(num_instances):
+        #    if class_names[classes[i]] == "person":
+        #        colors[i] = (scores[i],scores[i],scores[i])   
+        #    else:
+        #        colors[i] = (0.0,0.0,0.0)
+        #        
+        #    labels[i] = ""
+
+        alpha = 1.0
 
         frame_visualizer.overlay_instances(
             boxes=None if masks is not None else boxes,  # boxes are a bit distracting

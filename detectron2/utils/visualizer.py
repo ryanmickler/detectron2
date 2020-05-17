@@ -1019,12 +1019,15 @@ class Visualizer:
         Returns:
             output (VisImage): image object with polygon drawn.
         """
-        if edge_color is None:
-            # make edge color darker than the polygon color
-            if alpha > 0.8:
-                edge_color = self._change_color_brightness(color, brightness_factor=-0.7)
-            else:
-                edge_color = color
+        # if edge_color is None:
+        #    # make edge color darker than the polygon color
+        #    if alpha > 0.8:
+        #        edge_color = self._change_color_brightness(color, brightness_factor=-0.7)
+        #    else:
+        #        edge_color = color
+
+        edge_color = color
+
         edge_color = mplc.to_rgb(edge_color) + (1,)
 
         polygon = mpl.patches.Polygon(
